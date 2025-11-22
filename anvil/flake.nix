@@ -25,6 +25,7 @@
         commonBuildInputs = with pkgs; [
           wayland
           libxkbcommon
+          pixman
         ];
 
         udevBackendInputs = with pkgs; [
@@ -33,6 +34,7 @@
           libgbm
           seatd
           mesa
+          libdisplay-info
         ];
 
         x11Inputs = with pkgs; [
@@ -52,6 +54,8 @@
           rustToolchain
           pkg-config
           cmake
+          cargo
+          rustc
         ];
 
         buildInputs = commonBuildInputs 
@@ -68,8 +72,9 @@
             export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath buildInputs}:$LD_LIBRARY_PATH"
             export PKG_CONFIG_PATH="${pkgs.lib.makeSearchPathOutput "dev" "lib/pkgconfig" buildInputs}"
             
-            # Vulkan setup
             export VK_LAYER_PATH="${pkgs.vulkan-validation-layers}/share/vulkan/explicit_layer.d"
+            
+            export RUSTUP_AUTO_INSTALL="0#"
             
             echo "Anvil development environment loaded"
             echo "Available commands:"
