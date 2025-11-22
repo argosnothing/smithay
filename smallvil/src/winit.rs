@@ -48,6 +48,9 @@ pub fn init_winit(
 
     std::env::set_var("WAYLAND_DISPLAY", &state.socket_name);
 
+    // Request initial redraw to make the window visible
+    backend.window().request_redraw();
+
     event_loop.handle().insert_source(winit, move |event, _, data| {
         let display = &mut data.display_handle;
         let state = &mut data.state;

@@ -19,7 +19,7 @@
         };
 
         rustToolchain = pkgs.rust-bin.stable.latest.default.override {
-          extensions = [ "rust-src" "rust-analyzer" ];
+          extensions = [ "rust-src" "rustc-dev" ];
         };
 
         buildInputs = with pkgs; [
@@ -51,12 +51,12 @@
           inherit buildInputs;
           
           nativeBuildInputs = nativeBuildInputs ++ (with pkgs; [
+            rustToolchain
+            
+            rust-analyzer
             cargo-watch
             cargo-edit
             cargo-expand
-            clippy
-            rustfmt
-            rust-analyzer
             gdb
             lldb
             weston
@@ -66,7 +66,6 @@
           LD_LIBRARY_PATH = libPath;
           PKG_CONFIG_PATH = "${pkgs.lib.makeSearchPathOutput "dev" "lib/pkgconfig" buildInputs}";
           XDG_RUNTIME_DIR = "/tmp";
-          WAYLAND_DISPLAY = "wayland-1";
 
           shellHook = ''
             echo "🦀 Smallvil development environment loaded"
